@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-02-20T16:25:33+01:00</updated><id>http://localhost:4000/</id><title type="html">ESIR Projet ZenBox</title><subtitle>3 élèves de l'ESIR ont réalisé un projet. Vous trouverez sur ce site toutes les informations et l'avancement du projet en temps réel</subtitle><entry><title type="html">Plugin et Module</title><link href="http://localhost:4000/jekyll/update/2018/01/21/plugin.html" rel="alternate" type="text/html" title="Plugin et Module" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/plugin</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/plugin.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Dans cette partie nous allons faire la différence entre plugin et module. Un plugin sera
+défini comme une partie software de notre solution : c’est ce qui permettra de faire la liaison
+au niveau programme entre notre serveur et les modules utilisés. Ce sont par exemple les
+librairies que l’on va utiliser afin de communiquer avec les modules. Les modules quant à eux
+sont une partie hardware de notre solution. Ce sont les équipements qui nous permettront
+de communiquer avec les objets connectés, comme une carte wifi ou un module Zigbee.&lt;/p&gt;
+
+&lt;h1 id=&quot;1-plugins&quot;&gt;1. Plugins&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous utiliserons des plugins adaptés aux objets connectés que nous aurons à notre
+disposition. Les plugins utilisés seront les suivants :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Libcoap : pour les objets IKEA. Cela nous permettra de communiquer avec la
+passerelle de la marque qui communiquera ensuite en Zigbee avec ses objets connectés. Le
+protocole utilisé par la passerelle est le protocole CoAP encapsulé dans du HTTP. Libcoap est
+une librairie permettant de communiquer en CoAP et ainsi de transmettre nos commandes
+de manières compréhensibles pour la passerelle IKEA.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Mqtt : C’est un protocole pratique pour faire communiquer des objets connectés entre
+eux. Il fonctionne avec des “brokers”, c’est à dire que chaque équipement peut s’abonner à
+un topic et recevoir tous les messages publiés dans ce topic. Le broker est le serveur qui va
+distribuer les messages aux objets connectés. C’est un protocole léger puisque lorsque l’on
+veut envoyer un message à plusieurs clients il suffit de poster le message sur le topic, et les
+paquets envoyés ne sont pas surchargés en en-têtes comme le protocole HTTP. Une librairie
+MQTT.js est disponible avec node.js. Il nous faudra configurer un intermédiaire mqtt-radio
+qui permettra de communiquer avec l’équipement, s’il n’embarque pas déjà de client mqtt.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;2-modules&quot;&gt;2. Modules&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous aurons besoin de plusieurs modules afin de communiquer avec nos équipements.
+Certains équipements communiqueront via Zigbee (sans être de la marque IKEA) et donc nous
+aurons besoin d’un module Zigbee. Il en est de même pour la carte wifi dont nous aurons
+besoin pour communiquer avec les objets connectés son-off. Cependant, les Raspberry Pi V3
+intègre déjà une carte wifi, nous nous adapterons donc en fonction de la version des cartes
+Raspberry à notre disposition.&lt;/p&gt;</content><author><name></name></author><summary type="html">Dans cette partie nous allons faire la différence entre plugin et module. Un plugin sera défini comme une partie software de notre solution : c’est ce qui permettra de faire la liaison au niveau programme entre notre serveur et les modules utilisés. Ce sont par exemple les librairies que l’on va utiliser afin de communiquer avec les modules. Les modules quant à eux sont une partie hardware de notre solution. Ce sont les équipements qui nous permettront de communiquer avec les objets connectés, comme une carte wifi ou un module Zigbee.</summary></entry><entry><title type="html">Objets connectés</title><link href="http://localhost:4000/jekyll/update/2018/01/21/objets-connect%C3%A9s.html" rel="alternate" type="text/html" title="Objets connectés" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/objets-connect%C3%A9s</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/objets-connect%C3%A9s.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Les objets connectés que nous aurons à notre disposition seront des marques suivantes :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt; Ikea. Ces équipements fonctionnent grâce au protocole Zigbee et communiquent avec
+une box qui centralise tous les objets connectés de la marque. Cette box communique
+avec l’application via le protocole CoAP encapsulé dans du HTTP. Nous avons deux
+possibilités pour contrôler les objets connectés de la marque Ikea. Premièrement, nous
+pouvons contrôler la box en utilisant Libcoap afin de “court-circuiter” les échanges
+entre l’application et la box. La seconde possibilité est d'interagir en Zigbee
+directement avec les objets connectés. Cela nous évite de devoir utiliser la box.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Sonoff : ces équipements fonctionnent par l'intermédiaire de cartes wifi intégrées. Il
+est possible de modifier le code des équipements pour qu’ils puissent communiquer
+avec notre partie serveur en ajoutant par exemple un client mqtt.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Les objets connectés que nous aurons à notre disposition seront des marques suivantes :</summary></entry><entry><title type="html">Partie traitement du langage</title><link href="http://localhost:4000/jekyll/update/2018/01/21/Traitement-Langage.html" rel="alternate" type="text/html" title="Partie traitement du langage" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/Traitement-Langage</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/Traitement-Langage.html">&lt;p style=&quot;text-align:justify;&quot;&gt;La partie traitement du langage de notre solution va permettre de comprendre les
+demandes de l’utilisateur afin de les transformer en commandes compréhensibles par la
+partie serveur. Entre autres, elle devra comprendre le langage naturel français. Plus
+précisément, elle doit pouvoir prendre en entrée une chaîne de caractères provenant d’un
+client et la décomposer afin d’extraire automatiquement les informations importantes avant
+de les transmettre au serveur sous un format particulier.
+Développer une solution de traitement de langage par nous-mêmes est trop
+compliqué et nous avons choisi d’utiliser un logiciel disponible sur le marché dans le but de
+traiter cette partie à notre place.&lt;/p&gt;
+
+&lt;h1 id=&quot;1-choix-du-logiciel&quot;&gt;1. Choix du logiciel&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous avons fait le choix d’utiliser le réseau de neurones créé par l’université de
+Stanford, Core NLP. Nous utiliserons l’API fournie avec CoreNLP. Ce choix repose sur
+plusieurs facteurs, le premier étant qu’il répond à nos besoins d’un logiciel open source
+permettant de traiter des données textuelles en français et en Anglais. Ensuite en navigant sur
+la page web dédié à Core NLP nous avons pu constater qu’il était très bien documenté ce qui
+facilite la prise en main. Enfin ce qui a motivé notre choix est que tout le code source est en
+JAVA, langage dans lequel nous avons des connaissances et nous pouvons donc si besoin nous
+intéresser au code source directement afin de comprendre son fonctionnement. De plus il est
+possible d’utiliser des wrappers en différents langages ce qui nous permettra d’utiliser celui
+avec lequel nous somme le plus à l’aise, et celui dans lequel sera développé notre solution.
+Notre choix se porte sur le langage JavaScript car c’est celui que nous utilisons le plus cette
+année.
+De plus nous avons pu déjà voir en réalisant notre état de l’art qu’il existe déjà des projets
+ressemblant au notre utilisant CoreNLP sur un Raspberry pi.&lt;/p&gt;
+
+&lt;h1 id=&quot;2-fonctionnement-de-corenlp&quot;&gt;2. Fonctionnement de CoreNLP&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Le principe du logiciel est de pouvoir utiliser plusieurs outils d’analyse linguistique. Il
+est possible de choisir lesquels on souhaite utiliser et ceux qui ne correspondent pas à notre
+demande. Dans ces outils certains permettent au logiciel d’étiqueter les mots selon leurs types
+(nom, verbe, personne, etc) . Enfin une fois les types associés on peut traiter ces données
+et faire ressortir celles qui nous intéressent. On voit donc bien ici que les fonctionnalités de ce logiciel correspondent pleinement à nos besoins, ce que nous avons pu vérifier grâce à leur version démo sur la page web (voir figure ci-dessous). Pour ce qui est de l’utilisation, il y a la possibilité de tester les différentes fonctions sur des textes directement sur leur site. Une fois que l’on aura pu tester les outils utiles pour notre projet, nous pourrons faire appel à l’outil depuis notre programme. Pour ce faire il y a deux solutions possibles, soit il faut télécharger la librairie correspondant à JavaScript (node.js) depuis le site web, soit utiliser des gestionnaires de dépendances tels que Maven, Ant ou Gradle qui importent
+automatiquement les librairies. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/traitement.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;3-utilisation-dans-notre-projet&quot;&gt;3. Utilisation dans notre projet&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;À partir du schéma global on peut voir que la partie traitement du langage de notre
+projet reçoit les messages envoyés par le client à travers la partie serveur. Son objectif va être
+de comprendre les informations fournies dans la commande en repérant les verbes d’actions
+(exemple : Allumer, Éteindre…) mais aussi l’objet ou le groupe d’objet concerné. Une fois ces
+informations récupérées la partie traitement du langage va devoir les transformer en une
+commande au format JSON qui sera envoyé au serveur. Le format JSON est utilisé afin que le
+serveur quisera codé en nodeJS puisse l’interpréter facilement. Ce type de document JSon est
+le suivant : &lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;{pseudo : “nomClient”, objet: “idObjet”, action : “actionaEffectuer”}&lt;/div&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Dans le cas où le scénario est activé par un client, la partie traitement du langage décompose
+le scénario en plusieurs messages à envoyer à la partie serveur. C’est la partie serveur qui
+stockera les différents scénarios dans une base de données. Elle enverra les commandes à la
+partie serveur, et enverra une seule commande pour un seul objet. C’est à dire que lors de
+l’activation d’un scénario, la partie traitement de langage enverra plusieurs messages à la
+partie serveur et chacun de ces messages activera un objet connecté.
+Cette partie est donc une des plus importantes de notre projet car le bon
+fonctionnement repose en grande partie sur la compréhension des commandes. Ce sera donc
+la partie que nous allons devoir réaliser en premier afin de pouvoir la tester au maximum et
+s’assurer de son bon fonctionnement. &lt;/p&gt;</content><author><name></name></author><summary type="html">La partie traitement du langage de notre solution va permettre de comprendre les demandes de l’utilisateur afin de les transformer en commandes compréhensibles par la partie serveur. Entre autres, elle devra comprendre le langage naturel français. Plus précisément, elle doit pouvoir prendre en entrée une chaîne de caractères provenant d’un client et la décomposer afin d’extraire automatiquement les informations importantes avant de les transmettre au serveur sous un format particulier. Développer une solution de traitement de langage par nous-mêmes est trop compliqué et nous avons choisi d’utiliser un logiciel disponible sur le marché dans le but de traiter cette partie à notre place.</summary></entry><entry><title type="html">Sécurité</title><link href="http://localhost:4000/jekyll/update/2018/01/21/S%C3%A9curit%C3%A9.html" rel="alternate" type="text/html" title="Sécurité" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/S%C3%A9curit%C3%A9</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/S%C3%A9curit%C3%A9.html">&lt;h1 id=&quot;1-importance-de-la-sécurité&quot;&gt;1. Importance de la sécurité&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt; La sécurité est une partie importante dans le domaine de l’IOT de nos jours. En effet,
+il est nécessaire que les communications avec les objets connectés soient protégées car seuls
+les propriétaires doivent pouvoir accéder à leur contrôle ainsi qu’à leurs données.
+Nous allons donc devoir nous intéresser à la sécurité à chaque endroit où ont lieu des
+communications car ce sont à ces endroits qu’il est possible de récupérer des informations
+voir d’envoyer de fausses informations. &lt;/p&gt;
+
+&lt;h1 id=&quot;2-protection-de-nos-données&quot;&gt;2. Protection de nos données&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous allons utiliser nos connaissances issues du module SRIO dans lequel nous
+avons pu voir les différents types d’attaques possibles et comment il était possible de limiter
+les risques liés au hacking.
+Tout d’abord pour l’accès à notre application il sera nécessaire pour l’utilisateur de
+s’authentifier afin que toute personne passant près de l’installation ne puisse pas avoir accès
+au contrôle de ses différents équipements connectés.
+Pour ce qui est des communications entre les différents éléments visibles sur notre
+schéma les données devront être cryptées afin qu’une personne ne puisse pas récupérer
+toutes les informations sur le fonctionnement de la ZENBOX simplement en écoutant les
+communications. Nous utiliserons un système de clé asymétrique couplé à un système de
+signature afin de respecter les contraintes suivantes de la sécurité :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Confidentialité : Gérée par le cryptage des données&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Intégrité : le système de clefs asymétriques permet de s’assurer que le message ne
+puisse être modifié par une personne extérieure au système.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt;Authentification : Notre système d’authentification s’assurera de cette problématique.
+Il s’assurera que l’émetteur d’une commande soit bel et bien celui ayant envoyé cette
+commande.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;text-align:justify;&quot;&gt; Non-répudiation : Le système de signature nous permettra de s’assurer que l’émetteur
+d’une commande ne puisse pas nier l’avoir envoyée.
+Concernant la sécurité des objets connectés qui possèdent une box, nous nous
+renseignerons sur leur protocole de sécurité afin de savoir si on peut leur faire confiance ou
+non. Si nous estimons que les objets ne sont pas assez sécurisés, nous ne les utiliserons pas.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">1. Importance de la sécurité</summary></entry><entry><title type="html">Organisation globale de notre box</title><link href="http://localhost:4000/jekyll/update/2018/01/21/Organisation-Globale.html" rel="alternate" type="text/html" title="Organisation globale de notre box" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/Organisation-Globale</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/Organisation-Globale.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Voici le schéma global de notre box : &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/schema.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Comme vous pouvez le voir sur ce schéma, dans notre projet, il y a 3 grandes parties :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;La partie Client contenant l’interface utilisateur sous forme d’une application&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Les Objets Connectés de nature variée et communiquant à l’aide de protocoles&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Notre Box contenant la partie de traitement du langage et la partie serveur&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Dans notre box, on pourra trouver des Raspberry Pi qui feront office de serveur et hébergeront
+le logiciel de traitement de langage.&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Pour commencer, le client s'authentifie (pseudo et mot de passe) depuis
+l’application mobile, ces données seront envoyées à la partie serveur qui les traitera et
+renverra une réponse permettant la connexion de l’utilisateur et son accès aux fonctions de
+la ZenBox. Nous utiliserons une base de données afin de stocker les différents pseudos et mot
+de passe des utilisateurs.
+Les commandes seront ensuite envoyées depuis l’application mobile sous forme
+d’échange de messages textuels avec le serveur. Elles seront d’abord envoyées à la partie
+serveur qui interagira avec la partie traitement de langage à travers des sockets TCP en
+utilisant le format JSon pour les messages. Une fois les messages analysés par la partie
+traitement du langage, ils sont renvoyés sous forme de messages compréhensibles par les la
+partie serveur qui va pouvoir faire associer les noms d’objets avec les équipements connus
+par cette partie, afin de les renvoyer aux objets connectés. La partie serveur aura pour rôle
+d’envoyer les commandes aux différents objets connectés et de renvoyer un message de
+validation ou d’erreur de la commande à l’utilisateur.&lt;/p&gt;</content><author><name></name></author><summary type="html">Voici le schéma global de notre box :</summary></entry><entry><title type="html">Diagramme de Gantt</title><link href="http://localhost:4000/jekyll/update/2018/01/21/Gantt.html" rel="alternate" type="text/html" title="Diagramme de Gantt" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/Gantt</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/Gantt.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Voici le diagramme de Gantt que l'équipe a décidé de suivre tout au long de ce projet : &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Gantt.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Dans ce Gantt, on peut voir que dans la partie Tchat Box + Boîtier, 3 grandes sous parties ont été rajoutées : traitement du langage, serveur et client. Nous allons nous focaliser vraiment sur ces parties.
+	Dans la partie traitement du langage, il va falloir analyser les demandes et être capable de renvoyer les demandes sous le bon format. Ensuite, il faudra entrainer le logiciel.
+Dans la partie serveur, il faudra gérer l’authentification et transférer les messages reçus.
+Enfin, dans la partie client il faudra dans un premier temps développer une solution test permettant de tester le serveur. Ensuite on développera une application.&lt;/p&gt;</content><author><name></name></author><summary type="html">Voici le diagramme de Gantt que l'équipe a décidé de suivre tout au long de ce projet :</summary></entry><entry><title type="html">Partie application</title><link href="http://localhost:4000/jekyll/update/2018/01/21/Application.html" rel="alternate" type="text/html" title="Partie application" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/Application</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/Application.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Dans un premier temps notre partie client sera très basique comme nous l’avons déjà
+expliqué dans la partie serveur et servira à tester le bon fonctionnement des parties serveur
+et traitement du langage. Autrement dit, le traitement d’une demande client étant la partie
+essentielle dans notre projet ; il faut qu’elle puisse être testée le plus rapidement possible.
+Cependant une fois que les parties serveurs et traitement du langages seront opérationnelles
+nous souhaitons réaliser une Application intuitive pour rendre son utilisation facile pour
+l’utilisateur.&lt;/p&gt;
+
+&lt;h1 id=&quot;1-plateforme-utilisée&quot;&gt;1. Plateforme utilisée&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;La solution finale de notre application sera une application mobile développée sous
+plateforme Android. Suivant des cours de développement d’application mobile sous Android,
+nous avons ou aurons les compétences suivantes nécessaires afin d’atteindre nos objectifs
+d’ici la fin du semestre :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Connaissance des langage Java et Javascript&lt;/li&gt;
+  &lt;li&gt;Connaissance de l’environnement de travail Android Studio&lt;/li&gt;
+  &lt;li&gt;Utilisation du protocole Bluetooth&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous pensons donc avoir les compétences nécessaires pour atteindre nos objectifs en
+utilisant cette solution. Cependant, un de nos objectifs étant de rendre possible l’utilisation
+de notre solution sur d’autres plateformes qu’Android, nous devrons plus tard nous former
+afin d’acquérir les compétences nécessaires.
+Concernant le choix du protocole de communication utilisé entre notre partie client et
+les autres parties de notre solution, nous avions le choix entre le Bluetooth et le WIFI. En effet
+ces deux protocoles étaient tout à fait adaptés à notre solution et pouvaient facilement être
+utilisés avec des cartes Raspberry Pi. N’ayant pas d’intérêt à choisir l’un plutôt que l’autre,
+nous avons choisi Bluetooth sans raison particulière.&lt;/p&gt;
+
+&lt;h1 id=&quot;2-schéma-de-notre-solution&quot;&gt;2. Schéma de notre solution&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/application.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align:justify;&quot;&gt;Ce schéma ne représente que les différentes interfaces graphiques auxquelles sera
+confronté l’utilisateur final. Il ne représente pas l’échange de données entre notre application
+mobile et la partie traitement de langage ou serveur. L’échange de messages se fait de la
+même manière que celle employée dans la solution test. Cette architecture nous convient
+puisqu’elle permet de couvrir tous besoins. Nous pourrons l’améliorer par la suite si besoin
+sans problèmes puisque les différentes parties sont bien séparées.
+Lorsque le client se connecte à l’application, il arrive sur un écran où il peut renseigner
+son Login et Mot de passe afin de s’authentifier. Ensuite, il pourra choisir de configurer des
+scènes ou alors d’accéder au chat qui lui permettra de communiquer avec notre solution
+domotique. Dans la partie éditeur, il sera possible de renseigner des mots-clefs particuliers
+qui déclencheront les scènes afin de faciliter le travail de la partie de traitement du langage.
+Par exemple on pourra spécifier que le mot clef “salon” référera à tous les objets connectés
+situés dans le salon (qui ne seront connus que par un identifiant et non par leur position
+géographique). Ces mots clés seront stockés dans la partie serveur qui s’occupera de séparer
+une commande de scènes en plusieurs commande.&lt;/p&gt;
+
+&lt;h1 id=&quot;3-communications-avec-le-serveur&quot;&gt;3. Communications avec le serveur&lt;/h1&gt;
+&lt;h4 id=&quot;a-authentification&quot;&gt;a. Authentification&lt;/h4&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;La partie application mobile de notre solution devra envoyer des données à notre
+partie serveur dans le cadre de l’authentification. La partie serveur gérera la base de données
+contenant tous les comptes utilisateurs autorisés à se connecter au système.
+Le protocole utilisé sera du Bluetooth, ce qui permet de communiquer sans problème
+avec la partie serveur où que soit l’utilisateur dans la limite de la propriété.
+Le format du message sera bien spécifié puisque les messages seront transmis sous un
+format JSON particulier. Le format exact des messages est le même que celui décrit dans la
+solution test.&lt;/p&gt;
+
+&lt;h4 id=&quot;b-envoie-de-commande&quot;&gt;b. Envoie de commande&lt;/h4&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;La partie application mobile devra aussi envoyer des données au serveur dans le cadre
+d’envoi de commandes par l’utilisateur.
+Ces commandes seront envoyées par protocole Bluetooth également.
+Le message sera encore « brut », c’est-à-dire que la commande utilisateur ne sera pas
+encore modifiée. C'est la partie traitement du langage qui s’en chargera. Le message
+encapsulé dans le protocole de transmission sera tout de même au format JSON, de la même
+manière qu’expliqué dans la partie solution test.&lt;/p&gt;</content><author><name></name></author><summary type="html">Dans un premier temps notre partie client sera très basique comme nous l’avons déjà expliqué dans la partie serveur et servira à tester le bon fonctionnement des parties serveur et traitement du langage. Autrement dit, le traitement d’une demande client étant la partie essentielle dans notre projet ; il faut qu’elle puisse être testée le plus rapidement possible. Cependant une fois que les parties serveurs et traitement du langages seront opérationnelles nous souhaitons réaliser une Application intuitive pour rendre son utilisation facile pour l’utilisateur.</summary></entry><entry><title type="html">Partie serveur</title><link href="http://localhost:4000/jekyll/update/2018/01/21/serveur.html" rel="alternate" type="text/html" title="Partie serveur" /><published>2018-01-21T17:16:01+01:00</published><updated>2018-01-21T17:16:01+01:00</updated><id>http://localhost:4000/jekyll/update/2018/01/21/serveur</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/01/21/serveur.html">&lt;p&gt;&lt;img src=&quot;/assets/serveur.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Nous avons choisi de coder notre serveur en JavaScript. Ce choix est basé sur le fait
+que nous avons vu ce langage en cours et c’est donc le langage que l’on maîtrise le mieux. De
+plus, dans le cours de WebObject, nous avons fait un serveur de tchat. Nous allons donc utiliser
+les bases de ce serveur pour concevoir le nôtre. Cela facilitera sa conception. Nous avons
+également vu que node.JS était compatible avec CoreNLP. Il existe des packages (corenlp) et
+des wrapper (stanford-corenlp) disponibles. Ainsi, notre partie traitement de langage va
+pouvoir communiquer sans problème avec le serveur. De plus, vous verrez ensuite que le
+serveur traite également avec le client. Il existe des librairies compatibles avec Android, cela
+va donc faciliter la mise en place de la communication.&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Dans le serveur, il y aura deux parties, une partie traitement des commandes et une
+partie base de données. Comme vous l’avez vu, le client va devoir s’authentifier avec un nom
+d’utilisateur et un mot de passe. Il va falloir stocker ces données. Pour cela, les bases de
+données relationnelles sont les plus adaptés à notre projet. En effet, pour notre projet, nous
+aurons juste besoin de stocker le pseudo et le mot de passe de l’utilisateur, donc notre schéma
+n’aura pas besoin d’être modifié.
+Nous allons devoir également stocker les informations concernant les commandes clients et
+les objets connectés. Nous devrons également stocker les différents scénarios déclenchables
+par l’utilisateur. Au final les schémas resteront les mêmes et donc la base de données
+relationnelle est tout à fait adaptée.
+Nous avons choisi d’utiliser sqlite3 car nous l’avons déjà utilisé l’année dernière et donc nous
+avons des connaissances sur cette base.
+Notre serveur servira de broker pour les équipements communiquant en MQTT (voir partie
+V.B-module).&lt;/p&gt;
+
+&lt;p&gt;Notre serveur aura trois rôles dans l’envoi de données :&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Envoyer des données au client&lt;/li&gt;
+  &lt;li&gt;Envoyer des données aux objets connectés&lt;/li&gt;
+  &lt;li&gt;Transmettre les commandes clients à la partie traitement du langage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;1-envoyer-des-données-au-client&quot;&gt;1. Envoyer des données au client&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Il y aura deux moments où le serveur enverra des données au client. Le premier est
+lorsque que le client s'authentifie. Ainsi, lorsqu’il aura reçu les données du client, le serveur
+stockera ces données dans une base de données puis renverra au client la validité ou non de
+son authentification.
+Dans un second temps, lorsque le client enverra des commandes via l’application
+mobile afin d’effectuer des actions sur les objets connectés, le serveur renverra l’état de la
+commande si un retour d’état est disponible avec l’objet en question. C’est-à-dire que le client
+aura la possibilité de savoir si sa commande a bien été effectuée ou non. On utilise le protocole
+de communication TCP/ IP.
+Ces différents retours d’état seront envoyés sous le format JSON.&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Le format JSON d’un message envoyé au client lors d’une authentification sera le suivant :&lt;/p&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;{nom : « nomClient », action : « authentification », réponse : « acceptée ou non »}&lt;/div&gt;
+
+&lt;h1 id=&quot;2-envoyer-des-données-aux-objets-connectés&quot;&gt;2. Envoyer des données aux objets connectés&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Pour les objets connectés, il y aura deux cas de figures. C’est-à-dire qu’il peut y avoir
+des objets connectés, tels que la lampe ikea tradfri, qui possèdent une box ou un module
+préinstallé permettant de faire office de relai entre le protocole WIFI et le protocole compris
+par l’objet connecté. Il y a également d’autres objets qui n’ont pas ce genre de modules. Ainsi
+le serveur devra être capable de s’adapter. Lorsqu’une box sera présente, le serveur se servira
+des librairies préalablement installées permettant de communiquer avec la box (ex : libcoap,
+voir en annexe). Ensuite la box se chargera de communiquer avec l’équipement.
+S’il n’y a pas de box, il faudra alors installer un module hardware faisant office de relai
+permettant au serveur de communiquer avec les différents équipements.&lt;/p&gt;
+
+&lt;h1 id=&quot;3-recevoir-des-données-du-client&quot;&gt;3. Recevoir des données du client&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Lorsque le client veut envoyer une commande elle passe d’abord par notre partie
+serveur avant d’être transférée à la partie traitement du langage. Le serveur recevra donc les
+commandes client en brut. &lt;/p&gt;
+
+&lt;h1 id=&quot;4-recevoirenvoyer-les-données-de-la-partie-traitement-du-langage&quot;&gt;4. Recevoir/Envoyer les données de la partie traitement du langage&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Une fois que les données seront traitées, les messages seront renvoyés par la partie
+traitement langage vers la partie serveur. Le serveur ira comparer les données reçues à celles
+de sa base de données afin d’envoyer les commandes aux objets connectés adéquats.
+Les messages seront également transférés à la partie traitement du langage en brut.&lt;/p&gt;
+
+&lt;h1 id=&quot;5-test-du-serveur&quot;&gt;5. Test du serveur&lt;/h1&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Afin de pouvoir tester le bon fonctionnement de notre serveur nous utiliserons un
+programme Javascript exécutable avec node.js. Elle pourra communiquer avec la partie
+serveur afin d’effectuer des commandes clients et pour l’authentification. Cette partie sera
+donc la partie client de notre solution. Les messages se transmettront au travers de sockets
+TCP et seront au format JSON. Les fonctions implémentées seront les suivantes :&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Le client test doit pouvoir demander la liste des objets connectés et leur état
+s’ils peuvent le fournir.&lt;/li&gt;
+  &lt;li&gt;Il est possible de modifier l’état d’un objet (allumer ou éteindre une lampe,
+etc.). Il n’est possible de modifier que l’état d’un équipement à la fois. La
+possibilité de créer des scènes ne sera implémentée que plus tard.&lt;/li&gt;
+  &lt;li&gt;Le client doit pouvoir quitter l’application proprement.&lt;/li&gt;
+  &lt;li&gt;Le client doit pouvoir parler en langage naturel. Il doit être restreint le moins
+possible sur le format des demandes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align:justify;&quot;&gt;Le format JSON d’un message envoyé à la partie traitement du langage lors d’une commande
+client sera le suivant :&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;nom : « nomClient », action : « commande du client », objet : « nomObjet »}&lt;/div&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;La commande du client transmise sera non modifiée. C’est la partie traitement du langage qui
+s’en chargera.&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Le format JSON d’un message dans le cadre de l’authentification sera le suivant :&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;{action : « connection », pseudo : « pseudoINPUT », mdp : « mdpINPUT »}&lt;/div&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;Toutes les données échangées seront cryptées, selon le modèle exposé dans la partie sécurité.&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Objectifs du projet</title><link href="http://localhost:4000/jekyll/update/2017/10/13/objectif.html" rel="alternate" type="text/html" title="Objectifs du projet" /><published>2017-10-13T18:16:01+02:00</published><updated>2017-10-13T18:16:01+02:00</updated><id>http://localhost:4000/jekyll/update/2017/10/13/objectif</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2017/10/13/objectif.html">&lt;p style=&quot;text-align:justify;&quot;&gt;Les objectifs de ce projet sont multiples. Le principal est la création d’un boîtier intelligent qui permettra de contrôler des équipements domotiques dans une maison. Ce boîtier devra communiquer avec ces équipements en non-filaire. Comme équipements, nous voulons pouvoir contrôler n’importe quels types d’équipements domotiques, que ce soit des lampes, des volets, des thermostats etc.
+	L’interaction entre l’utilisateur et le système se fera à travers une chat box textuelle à l’intérieur d’une application. Cette application devra être multiplateformes et accessible par tous les membres d’une famille, utilisant des comptes différents.  
+	Nous voulons une solution domotique intuitive et facile d’utilisation. Elle doit être pratique et on ne veut pas que les données soient stockées sur des serveurs externes à notre système.
+	Nous avons défini dans le cahier des charges nos objectifs et les fonctionnalités que nous voulions implémenter en fonction de leur priorité. Mais nous avons également un objectif secondaire qui est de créer un site web permettant de suivre l’avancement du projet.&lt;/p&gt;</content><author><name></name></author><summary type="html">Les objectifs de ce projet sont multiples. Le principal est la création d’un boîtier intelligent qui permettra de contrôler des équipements domotiques dans une maison. Ce boîtier devra communiquer avec ces équipements en non-filaire. Comme équipements, nous voulons pouvoir contrôler n’importe quels types d’équipements domotiques, que ce soit des lampes, des volets, des thermostats etc. L’interaction entre l’utilisateur et le système se fera à travers une chat box textuelle à l’intérieur d’une application. Cette application devra être multiplateformes et accessible par tous les membres d’une famille, utilisant des comptes différents. Nous voulons une solution domotique intuitive et facile d’utilisation. Elle doit être pratique et on ne veut pas que les données soient stockées sur des serveurs externes à notre système. Nous avons défini dans le cahier des charges nos objectifs et les fonctionnalités que nous voulions implémenter en fonction de leur priorité. Mais nous avons également un objectif secondaire qui est de créer un site web permettant de suivre l’avancement du projet.</summary></entry><entry><title type="html">Cahier des charges</title><link href="http://localhost:4000/jekyll/update/2017/10/13/cahier-des-charges.html" rel="alternate" type="text/html" title="Cahier des charges" /><published>2017-10-13T18:16:01+02:00</published><updated>2017-10-13T18:16:01+02:00</updated><id>http://localhost:4000/jekyll/update/2017/10/13/cahier-des-charges</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2017/10/13/cahier-des-charges.html">&lt;p style=&quot;text-align:justify;&quot;&gt;La fonction principale de notre boitier est de contrôler les différents équipements qui sont connectés dans la maison. L’utilisateur devra être en mesure, à partir d’une application et via une chatbox textuelle, de contrôler l’ensemble des objets connectés en local (pas d’exportations de données sur internet). Notre système sera composé de plusieurs parties. La partie boitier, la partie application, la partie serveur, traitement du langage et équipements domotiques.&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;&lt;strong&gt;Partie Boitier : &lt;/strong&gt; Notre boitier contiendra la partie serveur et la partie traitement du langage qui seront hébergés sur des cartes Raspberry Pi. Il faut qu’il soit assez grand pour accueillir un nombre de cartes suffisant et qu’il soit possible de l’agrandir ou d’accéder facilement aux cartes à l’intérieur.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Boitier.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;&lt;strong&gt;Partie Client : &lt;/strong&gt;Notre application devra être adaptée aux besoins de l’utilisateur. Nous voulons implémenter différentes fonctionnalités dont certaines plus importantes et prioritaires. Elle devra être connectée à la partie serveur afin de transmettre les demandes de l’utilisateur.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Client1.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;/assets/Client2.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;&lt;strong&gt;La partie serveur : &lt;/strong&gt;Dans notre boîtier, il y aura une partie serveur géré via un ou plusieurs Raspberrys pis. Ces derniers devront recevoir les demandes des utilisateurs et les faire analyser par la partie traitement du langage. La partie traitement de langage devra répondre au serveur en renvoyant la demande programme. Le serveur envoie ensuite la ou les commandes appropriées aux réseaux d’objets connectés. Le système doit être capable de communiquer avec les objets connectés en Zigbee et/ou avec les protocoles en 433 et 868 Mhz car les équipements que nous aurons ne pourrons communiquer qu’avec ces protocoles. Cela couvre de nombreux protocoles (voir état de l’art). Chaque membre d’une famille devra créer son propre compte qui contrôlera les objets de la maison et il ne sera pas possible de connecter plusieurs personnes au même compte. Il y aura potentiellement des soucis si plusieurs personnes veulent allumer ou éteindre une lampe, et nous allons donc devoir définir des droits utilisateurs pour contrer ce problème.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Serveur.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;&lt;strong&gt;La partie traitement du langage : &lt;/strong&gt;Pour cette partie, il faudra prévoir un ou plusieurs Raspberry qui recevront les demandes utilisateurs via le serveur et les traiteront afin de renvoyer la demande programme au serveur. Le fonctionnement de cette partie sera basé sur un réseau de neurones (voir état de l’art). Ce réseau de neurones devra nous permettre de réaliser les fonctionnalités décrites ci-dessous.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/Traitement.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;&lt;strong&gt;Les objets connectés : &lt;/strong&gt;Le boîtier contrôlera des équipements. Il faudra donc, avant tout, que la maison soit équipée en objets connectés. Ils devront être capable de communiquer avec la partie serveur en indiquant tous types de données à propos d’eux-mêmes. Ils devront donc pouvoir communiquer en Zigbee et/ou avec les protocoles 433 et 868Mhz (la raison est expliquée dans la partie serveur). Le boîtier devra être capable de commander tous types d’objets connectés tels que des lampes, des volets... Il n’y a pas de fonctionnalités spéciales à implémenter dans cette partie. Il faudra cependant faire attention à la compatibilité des protocoles de transmissions entre notre partie serveur et les objets connectés.&lt;/p&gt;</content><author><name></name></author><summary type="html">La fonction principale de notre boitier est de contrôler les différents équipements qui sont connectés dans la maison. L’utilisateur devra être en mesure, à partir d’une application et via une chatbox textuelle, de contrôler l’ensemble des objets connectés en local (pas d’exportations de données sur internet). Notre système sera composé de plusieurs parties. La partie boitier, la partie application, la partie serveur, traitement du langage et équipements domotiques.</summary></entry></feed>
