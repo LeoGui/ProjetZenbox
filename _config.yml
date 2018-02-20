@@ -17,7 +17,7 @@ title: ESIR Projet ZenBox
 email: your-email@example.com
 description:  3 élèves de l'ESIR ont réalisé un projet. Vous trouverez sur ce site toutes les informations et l'avancement du projet en temps réel
 baseurl: # the subpath of your site, e.g. /blog
-url: "https://leogui.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://leogui.github.io/ProjetZenbox" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
 
